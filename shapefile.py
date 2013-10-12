@@ -39,8 +39,7 @@ ENCODING = os.environ.get('PYSHP_ENCODING', 'utf-8')
 if PYTHON3:
     xrange = range
 
-def b(v):
-    if PYTHON3:
+    def b(v):
         if isinstance(v, str):
             # For python 3 encode str to bytes.
             return v.encode(ENCODING)
@@ -50,12 +49,8 @@ def b(v):
         else:
             # Error.
             raise Exception('Unknown input type')
-    else:
-        # For python 2 assume str passed in and return str.
-        return v
 
-def u(v):
-    if PYTHON3:
+    def u(v):
         if isinstance(v, bytes):
             # For python 3 decode bytes to str.
             return v.decode(ENCODING)
@@ -65,7 +60,14 @@ def u(v):
         else:
             # Error.
             raise Exception('Unknown input type')
-    else:
+
+else:
+
+    def b(v):
+        # For python 2 assume str passed in and return str.
+        return v
+
+    def u(v):
         # For python 2 assume str passed in and return str.
         return v
 
